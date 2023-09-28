@@ -17,39 +17,35 @@
 #' @references
 #' \itemize{
 #'\item Garai, S., & Paul, R. K. (2023). Development of MCS based-ensemble models using CEEMDAN decomposition and machine intelligence. Intelligent Systems with Applications, 18, 200202.
+#'\item Garai, S. ., Paul, R. K. ., Kumar, M. ., & Choudhury, A. (2023). Intra-annual National Statistical Accounts Based on Machine Learning Algorithm. Journal of Data Science and Intelligent Systems. https://doi.org/10.47852/bonviewJDSIS3202870
 #' }
 # all metrics
 all_metrics <- function(actual, predicted) {
-  # Calculate the residuals
   residuals <- actual - predicted
   abs_residuals <- abs(actual - predicted)
-  scaled_abs_residuals <- abs_residuals/actual
-  lag_frame <- data.frame(embed(actual,2))
-  diff <- lag_frame[,1]-lag_frame[,2]
+
+  # Replace actual with 1e-10 where actual is exactly zero
+  actual[actual == 0] <- 1e-10
+
+  scaled_abs_residuals <- abs_residuals / actual
+  lag_frame <- data.frame(embed(actual, 2))
+  diff <- lag_frame[, 1] - lag_frame[, 2]
   abs_diff <- abs(diff)
-  # Calculate simple metrics
   mse <- mean(residuals^2)
   rmse <- sqrt(mse)
-  rrmse <- 100*rmse/mean(actual)
+  rrmse <- 100 * rmse / mean(actual)
   mae <- mean(abs_residuals)
-  mape <- 100*mean(scaled_abs_residuals)
-  mase <- mae/mean(abs_diff)
-  # calculate complex matrics
-  nse <- 1- (mse/(mean(actual^2)-(mean(actual))^2))
-  wi <- 1- (mse/mean((abs(actual-mean(actual))+abs(predicted-mean(actual)))^2))
-  lme <- 1- mae/mean(abs(actual-mean(actual)))
-  # creating the data frame
-  AllMetrics <- data.frame(cbind(c('RMSE', 'RRMSE',
-                                    'MAE', 'MAPE',
-                                    'MASE','NSE',
-                                    'WI', 'LME'),
-                                  c(round(rmse,3), round(rrmse,3),
-                                    round(mae,3), round(mape,3),
-                                    round(mase,3), round(nse,3),
-                                    round(wi,3), round(lme,3))))
-  colnames(AllMetrics) <- c('Metrics','Values')
+  mape <- 100 * mean(scaled_abs_residuals)
+  mase <- mae / mean(abs_diff)
+  nse <- 1 - (mse / (mean(actual^2) - (mean(actual))^2))
+  wi <- 1 - (mse / mean((abs(actual - mean(actual)) + abs(predicted - mean(actual)))^2))
+  lme <- 1 - mae / mean(abs(actual - mean(actual)))
+
+  AllMetrics <- data.frame(cbind(c("RMSE", "RRMSE", "MAE", "MAPE", "MASE", "NSE", "WI", "LME"),
+                                 c(round(rmse, 3), round(rrmse, 3), round(mae, 3), round(mape, 3),
+                                   round(mase, 3), round(nse, 3), round(wi, 3), round(lme, 3))))
+  colnames(AllMetrics) <- c("Metrics", "Values")
   dimnames(AllMetrics)
   dim(AllMetrics)
-  # returning the table containing all the metrics
   return(AllMetrics)
 }
