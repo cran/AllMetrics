@@ -17,7 +17,8 @@
 #' @references
 #' \itemize{
 #'\item Garai, S., & Paul, R. K. (2023). Development of MCS based-ensemble models using CEEMDAN decomposition and machine intelligence. Intelligent Systems with Applications, 18, 200202.
-#'\item Garai, S. ., Paul, R. K. ., Kumar, M. ., & Choudhury, A. (2023). Intra-annual National Statistical Accounts Based on Machine Learning Algorithm. Journal of Data Science and Intelligent Systems. https://doi.org/10.47852/bonviewJDSIS3202870
+#'\item Garai, S., Paul, R. K., Kumar, M., & Choudhury, A. (2023). Intra-annual National Statistical Accounts Based on Machine Learning Algorithm. Journal of Data Science and Intelligent Systems. https://doi.org/10.47852/bonviewJDSIS3202870
+#'\item Garai, S., Paul, R.K., Yeasin, M., Paul, A.K. (2024). CEEMDAN-Based Hybrid Machine Learning Models for Time Series Forecasting Using MARS Algorithm and PSO-Optimization. Neural Processing Letters, 56, 92. https://doi.org/10.1007/s11063-024-11552-w
 #' }
 # all metrics
 all_metrics <- function(actual, predicted) {
